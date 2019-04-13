@@ -74,6 +74,7 @@ include/usermessages.inc
 include/vector.inc
 include/version.inc
 include/version_auto.inc
+resources/
 
 # Third-Party
 # =========================
