@@ -55,7 +55,7 @@ CREATE TABLE `store_item_parent` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE IF NOT EXISTS `store`.`store_item_child` (
+CREATE TABLE IF NOT EXISTS `store_item_child` (
   `parent` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '!parent!',
   `type` VARCHAR(32) NOT NULL DEFAULT 'ITEM_ERROR' COMMENT '!type!',
   `uid` VARCHAR(32) NOT NULL DEFAULT 'ITEM_ERROR',
@@ -103,38 +103,14 @@ CREATE TABLE IF NOT EXISTS `store`.`store_item_child` (
   `wearf` FLOAT(7,6) UNSIGNED NOT NULL DEFAULT '0.010000' COMMENT 'weaponskin',
   `store_servers_idstore_servers` INT NOT NULL,
   PRIMARY KEY (`type`, `uid`, `store_servers_idstore_servers`),
-  INDEX `p` (`parent` ASC)
+  INDEX `p` (`parent` ASC))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-
--- if u upgrade from 2.0, exec this in your database
-ALTER TABLE `store_item_child`
-ADD `idle` varchar(32) NOT NULL DEFAULT 'ITEM_NO_IDLE' COMMENT 'pet',
-ADD `run` varchar(32) NOT NULL DEFAULT 'ITEM_NO_RUN' COMMENT 'pet',
-ADD `death` varchar(32) NOT NULL DEFAULT 'ITEM_NO_DEATH' COMMENT 'pet',
-ADD `seed` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'weaponskin',
-ADD `weart` tinyint(3) NOT NULL DEFAULT '-1' COMMENT 'weaponskin',
-ADD `paint` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'weaponskin',
-ADD `wearf` float(7,6) unsigned NOT NULL DEFAULT '0.01' COMMENT 'weaponskin';
-
--- if u upgrade from 2.2
-ALTER TABLE `store_item_child`
-MODIFY `case` TINYINT(2) DEFAULT 0 NOT NULL;
-
-CREATE TABLE `store_equipment` (
-  `player_id` int(11) NOT NULL,
-  `type` varchar(16) NOT NULL,
-  `unique_id` varchar(128) NOT NULL DEFAULT '',
-  `slot` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`player_id`,`type`,`slot`),
-  KEY `key` (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DEFAULT CHARACTER SET = utf8mb4;
 
 -- Servers
-CREATE TABLE IF NOT EXISTS `mydb`.`store_servers` (
+CREATE TABLE IF NOT EXISTS `store_servers` (
   `idstore_servers` INT NOT NULL,
   `store_server_name` VARCHAR(128) NULL,
-  `store_server_ip` VARCHAR(16) NULL,
-  `store_server_port` INT NULL,
+  `store_server_ip_port` VARCHAR(32) NULL,
   PRIMARY KEY (`idstore_servers`))
-ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
+ENGINE = InnoDB

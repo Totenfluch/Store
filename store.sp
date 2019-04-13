@@ -3049,11 +3049,17 @@ void UTIL_ReloadConfig()
         // Interval
         g_eItems[parent][iParent] = UTIL_GetParent(parent, g_eItems[parent][iParent]);
     }
+    
+    int ip = GetConVarInt(FindConVar("hostip"));
+    char g_sServerIpPort[32];
+	Format(g_sServerIpPort, sizeof(g_sServerIpPort), "%d.%d.%d.%d:%d", ((ip & 0xFF000000) >> 24) & 0xFF, ((ip & 0x00FF0000) >> 16) & 0xFF, ((ip & 0x0000FF00) >> 8) & 0xFF, ((ip & 0x000000FF) >> 0) & 0xFF, GetConVarInt(FindConVar("hostport")));
 
 #if defined Global_Skin
-    DBResultSet item_child = SQL_Query(ItemDB, "SELECT a.*,b.name as title FROM store_item_child a LEFT JOIN store_item_parent b ON b.id = a.parent ORDER BY b.id ASC, a.parent ASC");
+	char fetchItemQuery[1024];
+    DBResultSet item_child = SQL_Query(ItemDB, fetchItemQuery);
 #else
-    DBResultSet item_child = SQL_Query(ItemDB, "SELECT a.*,b.name as title FROM store_item_child a LEFT JOIN store_item_parent b ON b.id = a.parent ORDER BY b.id ASC, a.team ASC, a.parent ASC");
+	char fetchItemQuery[1024];
+    DBResultSet item_child = SQL_Query(ItemDB, fetchItemQuery);
 #endif
 
     if(item_child == null)
