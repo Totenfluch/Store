@@ -3056,9 +3056,11 @@ void UTIL_ReloadConfig()
 
 #if defined Global_Skin
 	char fetchItemQuery[1024];
+	Format(fetchItemQuery, sizeof(fetchItemQuery), "SELECT a.*,b.name as title FROM store_item_child a LEFT JOIN store_item_parent b ON b.id = a.parent INNER JOIN store_servers ss ON a.store_servers_idstore_servers = ss.idstore_servers WHERE ss.store_server_ip_port = '%s' OR ss.idstore_servers = -1 ORDER BY b.id ASC, a.parent ASC", g_sServerIpPort)
     DBResultSet item_child = SQL_Query(ItemDB, fetchItemQuery);
 #else
 	char fetchItemQuery[1024];
+	Format(fetchItemQuery, sizeof(fetchItemQuery), "SELECT a.*,b.name as title FROM store_item_child a LEFT JOIN store_item_parent b ON b.id = a.parent INNER JOIN store_servers ss ON a.store_servers_idstore_servers = ss.idstore_servers WHERE ss.store_server_ip_port = '%s' OR ss.idstore_servers = -1 ORDER BY b.id ASC, a.team ASC, a.parent ASC", g_sServerIpPort);
     DBResultSet item_child = SQL_Query(ItemDB, fetchItemQuery);
 #endif
 
